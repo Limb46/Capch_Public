@@ -63,7 +63,7 @@ public class etalonReset : MonoBehaviour
         colVo = blocki.Length;
         Debug.Log("Peremennayz colVo = " + (colVo - 1));
         Debug.Log("Ostalos = " + xer);
-        etalon.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(imena[Random.Range(0, xer - 1)]);
+        etalon.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(imena[Random.Range(0, xer)]);
        
     }
 
