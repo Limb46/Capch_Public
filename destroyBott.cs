@@ -24,7 +24,10 @@ public class destroyBott : MonoBehaviour
 
     public void Ebash()
     {
-        lol.GetComponent<etalonReset>().ResetEtalon() ;
+        //Было
+        //lol.GetComponent<etalonReset>().ResetEtalon() ;
+        //Стало
+        lol.GetComponent<etalonReset>().ResetEtalonInvoke() ;
     }
 
 }
