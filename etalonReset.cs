@@ -38,6 +38,13 @@ public class etalonReset : MonoBehaviour
     //{
     //    ResetEtalon();
     //}
+
+    public void ResetEtalonInvoke()
+    {
+        Invoke("ResetEtalon", 0.1f);
+    }
+
+
         public void ResetEtalon()
     {
 
