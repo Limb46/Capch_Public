@@ -5,29 +5,23 @@ using UnityEngine.UI;
 
 public class destroyBott : MonoBehaviour
 {
-    public GameObject ai;
-    public GameObject lol;
+    public GameObject destroyedObject;      //  удаляемый обхект
+    public GameObject holderScriptReset;    // обект на котором висит скрипт перезапуска эталона
 
-
-    //public void destroyThisObject()
     public void OnMouseDown()
     {
-        Destroy(ai);
-
-        Ebash();
-        
-      
-        
+        //  удаляем объект взаимодействия
+        Destroy(destroyedObject);
+        //  перезапускаем скрипт генерации эталона
+        ResetEralon();
     }
 
 
 
-    public void Ebash()
+    public void ResetEralon()
     {
-        //Было
-        //lol.GetComponent<etalonReset>().ResetEtalon() ;
-        //Стало
-        lol.GetComponent<etalonReset>().ResetEtalonInvoke() ;
+        // метод перезапуска эталона висящего на объекте holderScriptReset
+        holderScriptReset.GetComponent<etalonReset>().ResetEtalonInvoke();
     }
 
 }

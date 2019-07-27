@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class gamePolygon : MonoBehaviour
 {
-    public GameObject prefab;   //  префаб создаваемого объекта
-    public Transform parent;    //  родитель - игровое поле/gamePolygon
-    private GameObject bott;    //  переменная для созданного объекта из префаба
-    private float xCor, yCor;   //  переменные координат
-    private Vector2 setPos;     //   координаты объекта
+    public GameObject prefab;           //  префаб создаваемого объекта
+    public Transform parent;            //  родитель - игровое поле/gamePolygon
+    private GameObject bott;            //  переменная для созданного объекта из префаба
+    private float xCor, yCor;           //  переменные координат
+    private Vector2 setPos;             //   координаты объекта
     private float[] cor = new float[3]; //  создаём массив координатных значений
-    private int x, y = 0;          //  задаём переменной х значение начала массива cor
-
-    public GameObject[] blocks;
-    public Sprite oneS;
+    private int x, y = 0;               //  задаём переменной х значение начала массива cor
+    private GameObject[] blocks;        //  массив блоков находящихся в сцене
 
 
     void Start()

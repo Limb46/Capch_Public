@@ -6,82 +6,43 @@ public class etalonReset : MonoBehaviour
 {
 
     private GameObject[] blocki;
-    public GameObject etalon;
-    private int colVo;
+    private GameObject etalon;
 
-    void Start()
+    public void Start()
     {
-
-       
-
-
+        ResetEtalonInvoke();
     }
-
-
-    //for (int li = 0; li < blocki.Length; li++)
-    //{
-    //blocks[li].name = ("ada" + li);     //  переименуем все найденные объекты
-    //blocks[li].GetComponent<SpriteRenderer>().sprite = ;
-    //blocks[li].GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("" + Random.Range(0, 6) + "");
-    //}
-    //}
-
-
-    void FixedUpdate()
-    {
-        
-    }
-
-
-
-    //public void OnMouseUpAsButton()
-    //{
-    //    ResetEtalon();
-    //}
 
     public void ResetEtalonInvoke()
     {
+        //  вызов метода ResetEtalon с задержкой в 0,1 секунды
         Invoke("ResetEtalon", 0.1f);
     }
 
-
-        public void ResetEtalon()
+    public void ResetEtalon()
     {
-
+        //  в bloki записываем все объекты с тегом bottPref
         blocki = GameObject.FindGameObjectsWithTag("bottPref");
-        Debug.Log("Dlinna massiva = " + blocki.Length);
 
-        int xer = blocki.Length;
-        Debug.Log("Dlina massiva " + xer);
+        //  в blockiLength, типа int, записываем длинну массива blocki
+        int blokiLength = blocki.Length;
 
-        string[] imena = new string[xer];
-        Debug.Log("HHHHHHHHHHHHHHHHHHHHHHH  " + imena.Length);
-        for (int x = 0; x < xer; x++)
+        //  в массив blokiSpriteNames, типа string, записываем сточные значения blockiLength, типа string
+        string[] blockiSpriteNames = new string[blokiLength];
+
+        //  цикл: пока х < длинны массива bloki; x++
+        for (int x = 0; x < blokiLength; x++)
         {
-            imena[x] = blocki[x].GetComponent<SpriteRenderer>().sprite.name;
-            Debug.Log("blok = " + blocki[x].name + " || imena = " + imena[x] );
+        //  blockiSpriteNames[x] принимает значение имени спрайта bliki[x] 
+            blockiSpriteNames[x] = blocki[x].GetComponent<SpriteRenderer>().sprite.name;
         }
 
-        
-
-        //===========================================================================================================
-
+        //  в etalon записываем оъект с одноимёенным тегом
         etalon = GameObject.FindGameObjectWithTag("etalon");
-        colVo = blocki.Length;
-        Debug.Log("Peremennayz colVo = " + (colVo - 1));
-        Debug.Log("Ostalos = " + xer);
-        etalon.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(imena[Random.Range(0, xer)]);
-       
-    }
 
-
-    
-
-
-    void Update()
-    {
+        //  имени спрайта объекта etalon присваиваем рандомный спрайт с именем из массива blockiSpriteNames
+        //  в диапазоне от нуля до длинны массива bloki
+        etalon.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(blockiSpriteNames[Random.Range(0, blokiLength)]);
 
     }
-
-
 }
