@@ -10,19 +10,21 @@ public class etalonReset : MonoBehaviour
 
     public void Start()
     {
-        ResetEtalonInvoke();
+        Invoke("ResetEtalon", 0.1f);
     }
 
     public void ResetEtalonInvoke()
     {
         //  вызов метода ResetEtalon с задержкой в 0,1 секунды
         Invoke("ResetEtalon", 0.1f);
+        etalon = GameObject.FindGameObjectWithTag("etalon");
+        etalon.GetComponent<bonusTime>().GetTrue();
     }
 
     public void ResetEtalon()
     {
-        //  в bloki записываем все объекты с тегом bottPref
-        blocki = GameObject.FindGameObjectsWithTag("bottPref");
+        //  в bloki записываем все объекты с тегом buttPref
+        blocki = GameObject.FindGameObjectsWithTag("buttPref");
 
         //  в blockiLength, типа int, записываем длинну массива blocki
         int blokiLength = blocki.Length;

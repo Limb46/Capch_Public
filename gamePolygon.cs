@@ -1,33 +1,46 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class gamePolygon : MonoBehaviour
 {
     public GameObject prefab;           //  префаб создаваемого объекта
     public Transform parent;            //  родитель - игровое поле/gamePolygon
-    private GameObject bott;            //  переменная для созданного объекта из префаба
+    private GameObject butt;            //  переменная для созданного объекта из префаба
     private float xCor, yCor;           //  переменные координат
-    private Vector2 setPos;             //   координаты объекта
+    private Vector2 setPos;             //  координаты объекта
     private float[] cor = new float[3]; //  создаём массив координатных значений
     private int x, y = 0;               //  задаём переменной х значение начала массива cor
     private GameObject[] blocks;        //  массив блоков находящихся в сцене
+    private int count;                  //  счёт для программы
+    public Text score;                  //  счёт для скрипта
+    public GameObject GamePlay;         //  прикручиваем эталон ради его скрипта
+
 
 
     void Start()
     {
+        //  сбрасываем счётчик на 0
+        count = 0;
+
+        //  запускаем сцену
+        startScen();
+    }
+
+    void startScen()
+    {
         //  выполняем цикл 1-ого ряда
         genFor();
 
-        // присваиваем переменной blocks все объекты с тегом bottPref
-        blocks = GameObject.FindGameObjectsWithTag("bottPref");
-        for(int li = 0; li < blocks.Length; li++)
+        // присваиваем переменной blocks все объекты с тегом buttPref
+        blocks = GameObject.FindGameObjectsWithTag("buttPref");
+        for (int li = 0; li < blocks.Length; li++)
         {
-           blocks[li].name = (li.ToString());     //  переименуем все найденные объекты
-                                           //blocks[li].GetComponent<SpriteRenderer>().sprite = ;
+            blocks[li].name = (li.ToString());     //  переименуем все найденные объекты
+                                                   //blocks[li].GetComponent<SpriteRenderer>().sprite = ;
             blocks[li].GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(Random.Range(0, 6).ToString());
         }
-
     }
 
     void genFor()
@@ -51,23 +64,28 @@ public class gamePolygon : MonoBehaviour
     void generate() 
     {
         //  boot присваеваем вызов объекта prefab
-        bott = Instantiate(prefab, setPos, Quaternion.identity) as GameObject;
+        butt = Instantiate(prefab, setPos, Quaternion.identity) as GameObject;
         //  boot становится дочернеей от parent - "gamePolygon"
-        bott.transform.SetParent(parent);
+        butt.transform.SetParent(parent);
         //  локальному маштабу boot присвается локальный маштаб prefab
-        bott.transform.localScale = prefab.transform.localScale;
+        butt.transform.localScale = prefab.transform.localScale;
         //  переменной setPos присваиваются координаты 
-        setPos = bott.transform.localPosition = new Vector3(xCor, yCor, -0.5f);
+        setPos = butt.transform.localPosition = new Vector3(xCor, yCor, -0.5f);
 
     }
 
     // метод запускает всё заново (для дочки)
     void FixedUpdate()
     {
-        blocks = GameObject.FindGameObjectsWithTag("bottPref");
+        blocks = GameObject.FindGameObjectsWithTag("buttPref");
         if (blocks.Length <= 0)
         {
-            Start();
+            count++;
+            score.text = count.ToString();
+            startScen();
+            GamePlay.GetComponent<gamePlay>().next = true;
+            if (PlayerPrefs.GetInt("Score") < count)
+                PlayerPrefs.SetInt("Score", count);
         }
     }
 }
