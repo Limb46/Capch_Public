@@ -7,15 +7,14 @@ public class gamePlay : MonoBehaviour
 {
     public GameObject etalon;
     //  таймер
-    public Text Timer;
-    public Text BonusText;
+    public Text Timer, BonusText, Level;
     public GameObject Bonus;
     public Image timerImage;
 
     //  проигрыш
-    public GameObject pLose;
-    public GameObject gamePole;
-    public bool next, lose, bonus;
+    public GameObject pLose, gamePole, pressing, timeOut, press, inst;
+
+    public bool next, lose, bonus, checkIt;
 
     private int numberOfLevels;
 
@@ -23,23 +22,25 @@ public class gamePlay : MonoBehaviour
     private float[] tOne = new float[9];
     private float[] tTwo = new float[9];
 
+    private float getThree;
+    private int setter, check;
 
+    public string pressed, instead;
     public void Start()
     {
         BonusText.text = ("+ " + PlayerPrefs.GetFloat("setThree").ToString());
         float getOne = PlayerPrefs.GetFloat("setOne");
         float getTwo = PlayerPrefs.GetFloat("setTwo");
+        getThree = (PlayerPrefs.GetFloat("setFive"));
         for (int q = 0; q < 9; q++, getOne = getOne - getTwo)
         {
             tOne[q] = getOne;
         }
-
         numberOfLevels = 0;
 
         next = false;
         lose = false;
         bonus = false;
-
 
 
         for(int qw = 0; qw < 9; qw++)
@@ -51,57 +52,67 @@ public class gamePlay : MonoBehaviour
 
     public void FixedUpdate()
     {
-        StartTimer();
-
-        int e = 2;
-        int r = 4;
-        conditions[0] = numberOfLevels <= 2;
-        for (int w = 1; w < 9; w++, e = e + 2, r = r += 2)
-        {
-            conditions[w] = numberOfLevels > e && numberOfLevels <= r;
-        }
+        Actions();
     }
 
-    public void StartTimer()
+
+    public void GamerLosePress()
     {
-
-
-        for (int c = 0; c < 9; c++)
-        {
-            if (conditions[c])
-            {
-                if (next)
-                {
-                    next = false;
-                    numberOfLevels++;
-                    tOne[c] = tTwo[c];
-                }
-                tOne[c] -= Time.deltaTime;
-                    if (bonus)
-                    {
-                   // Debug.Log("HOROSHO");
-                        tOne[c] += PlayerPrefs.GetFloat("setThree");
-                        bonus = false;
-                        StartCoroutine("BonusView");
-                    }
-                Timer.text = tOne[c].ToString("0.00");
-                timerImage.fillAmount = (tOne[c] * (100 / tTwo[c])) / 100;
-
-                if (lose || tOne[c] <= 0)
-                {
-                    GamerLose();
-                    etalon.GetComponent<bonusTime>().lose = true;
-                }
-            }
-        }
-
-
+        press.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(pressed);
+        inst.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(instead);
+        GamerLose();
+        pressing.SetActive(true);
     }
-
+    public void GamerLoseTime()
+    {
+        GamerLose();
+        timeOut.SetActive(true);
+    }
     public void GamerLose()
     {
         pLose.SetActive(true);
         gamePole.SetActive(false);
+        etalon.GetComponent<bonusTime>().lose = true;
+        Level.text = numberOfLevels.ToString();
+    }
+
+
+    public void Actions()
+    {
+        if (next)
+        {
+            check++;
+            if (check == 2 && checkIt == false)
+            {
+                setter++;
+                check = 0;
+            }
+            next = false;
+            numberOfLevels++;
+            if (setter >= getThree)
+            {
+                checkIt = true;
+            }
+            tOne[setter] = tTwo[setter];
+        }
+        
+     tOne[setter] -= Time.deltaTime;
+        if (bonus)
+        {
+            tOne[setter] += PlayerPrefs.GetFloat("setThree");
+            bonus = false;
+            StartCoroutine("BonusView");
+        }
+        if (lose)
+        {
+            GamerLosePress();
+        }
+        if (tOne[setter] <= 0)
+        {
+            GamerLoseTime();
+        }
+     Timer.text = tOne[setter].ToString("0.00");
+     timerImage.fillAmount = (tOne[setter] * (100 / tTwo[setter])) / 100;
     }
 
     IEnumerator BonusView()

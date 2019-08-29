@@ -12,7 +12,6 @@ public class buttons : MonoBehaviour
         {
             case "Replay":
                 Application.LoadLevel("SampleScene");
-                Debug.Log("Конём ходи");
                 break;
             case "Play":
                 Application.LoadLevel("SampleScene");

@@ -19,8 +19,10 @@ public class destroyButt : MonoBehaviour
         //  переменной etalon присваиваем имя спрайта одноимённого объекта
         string etalon = GameObject.FindGameObjectWithTag("etalon").GetComponent<SpriteRenderer>().sprite.name;
 
+        string destroyed = destroyedObject.GetComponent<SpriteRenderer>().sprite.name;
+
         //  если имя спрайта эталона = имени спрайта нажатоко объекта то:
-        if (etalon == destroyedObject.GetComponent<SpriteRenderer>().sprite.name)
+        if (etalon == destroyed)
         {
             //  удаляем объект взаимодействия
             Destroy(destroyedObject);
@@ -31,7 +33,10 @@ public class destroyButt : MonoBehaviour
         //  в противном случае
         else
         {
-            setActive.GetComponent<gamePlay>().lose = true;     
+            setActive.GetComponent<gamePlay>().pressed = destroyed;
+            setActive.GetComponent<gamePlay>().instead = etalon;
+
+            setActive.GetComponent<gamePlay>().lose = true;
         }
     }
 }
