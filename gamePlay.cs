@@ -26,12 +26,17 @@ public class gamePlay : MonoBehaviour
     private int setter, check;
 
     public string pressed, instead;
+
+    private int coin;
+
     public void Start()
     {
         BonusText.text = ("+ " + PlayerPrefs.GetFloat("setThree").ToString());
         float getOne = PlayerPrefs.GetFloat("setOne");
         float getTwo = PlayerPrefs.GetFloat("setTwo");
-        getThree = (PlayerPrefs.GetFloat("setFive"));
+        getThree = PlayerPrefs.GetFloat("setFive");
+
+        //coin = PlayerPrefs.GetInt("coins");
         for (int q = 0; q < 9; q++, getOne = getOne - getTwo)
         {
             tOne[q] = getOne;
@@ -81,6 +86,7 @@ public class gamePlay : MonoBehaviour
     {
         if (next)
         {
+            AddCoin();
             check++;
             if (check == 2 && checkIt == false)
             {
@@ -103,9 +109,19 @@ public class gamePlay : MonoBehaviour
             bonus = false;
             StartCoroutine("BonusView");
         }
+        int hearth = PlayerPrefs.GetInt("hearth");
         if (lose)
         {
-            GamerLosePress();
+            if (hearth == 0)
+            {
+                GamerLosePress();
+            }
+            if (hearth != 0)
+            {
+                hearth -= 1;
+                PlayerPrefs.SetInt("hearth", hearth);
+                lose = false;
+            }
         }
         if (tOne[setter] <= 0)
         {
@@ -113,6 +129,13 @@ public class gamePlay : MonoBehaviour
         }
      Timer.text = tOne[setter].ToString("0.00");
      timerImage.fillAmount = (tOne[setter] * (100 / tTwo[setter])) / 100;
+    }
+
+    private void AddCoin()
+    {
+        coin = PlayerPrefs.GetInt("coins");
+        coin += 10;
+        PlayerPrefs.SetInt("coins", coin);
     }
 
     IEnumerator BonusView()

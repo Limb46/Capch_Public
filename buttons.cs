@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class buttons : MonoBehaviour
 {
+
+    public GameObject buyHearth;
+
     void OnMouseUpAsButton()
     {
 
@@ -22,6 +25,16 @@ public class buttons : MonoBehaviour
             case "Settings":
                 Application.LoadLevel("settings");
                 break;
+            case "Shop":
+                Application.LoadLevel("shop");
+                break;
+            case "back":
+                Application.LoadLevel("play");
+                break;
+            case "Buy Hearth":
+                buyHearth.GetComponent<shop>().BuyHearth();
+                break;
+
         }
     }
 }
