@@ -18,7 +18,10 @@ public class etalonReset : MonoBehaviour
         //  вызов метода ResetEtalon с задержкой в 0,1 секунды
         Invoke("ResetEtalon", 0.1f);
         etalon = GameObject.FindGameObjectWithTag("etalon");
-        etalon.GetComponent<bonusTime>().GetTrue();
+        if (PlayerPrefs.GetInt("mode") == 1)
+        {
+            etalon.GetComponent<bonusTime>().GetTrue();
+        }
     }
 
     public void ResetEtalon()

@@ -78,14 +78,17 @@ public class gamePolygon : MonoBehaviour
     void FixedUpdate()
     {
         blocks = GameObject.FindGameObjectsWithTag("buttPref");
-        if (blocks.Length <= 0)
+        if (PlayerPrefs.GetInt("mode") == 1)
         {
-            count++;
-            score.text = count.ToString();
-            startScen();
-            GamePlay.GetComponent<gamePlay>().next = true;
-            if (PlayerPrefs.GetInt("Score") < count)
-                PlayerPrefs.SetInt("Score", count);
+            if (blocks.Length <= 0)
+            {
+                count++;
+                score.text = count.ToString();
+                startScen();
+                GamePlay.GetComponent<gamePlay>().next = true;
+                if (PlayerPrefs.GetInt("Score") < count)
+                    PlayerPrefs.SetInt("Score", count);
+            }
         }
     }
 }

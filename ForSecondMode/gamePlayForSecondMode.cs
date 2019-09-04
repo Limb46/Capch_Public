@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class gamePlay : MonoBehaviour
+public class gamePlayForSecondMode : MonoBehaviour
 {
     public GameObject etalon;
     //  таймер
@@ -27,14 +27,17 @@ public class gamePlay : MonoBehaviour
 
     public string pressed, instead;
 
-    private int coin;
+    private int coin, count;
+
+    public Text score;
 
     public void Start()
     {
+        count = 0;
         BonusText.text = ("+ " + PlayerPrefs.GetFloat("setThree").ToString());
-        float getOne = PlayerPrefs.GetFloat("setOne");
-        float getTwo = PlayerPrefs.GetFloat("setTwo");
-        getThree = PlayerPrefs.GetFloat("setFive");
+        float getOne = 10;
+        float getTwo = 1.5f;
+        getThree = 6;
 
         //coin = PlayerPrefs.GetInt("coins");
         for (int q = 0; q < 9; q++, getOne = getOne - getTwo)
@@ -48,7 +51,7 @@ public class gamePlay : MonoBehaviour
         bonus = false;
 
 
-        for(int qw = 0; qw < 9; qw++)
+        for (int qw = 0; qw < 9; qw++)
         {
             tTwo[qw] = tOne[qw];
         }
@@ -77,7 +80,6 @@ public class gamePlay : MonoBehaviour
     {
         pLose.SetActive(true);
         gamePole.SetActive(false);
-        etalon.GetComponent<bonusTime>().lose = true;
         Level.text = numberOfLevels.ToString();
     }
 
@@ -87,6 +89,7 @@ public class gamePlay : MonoBehaviour
         if (next)
         {
             AddCoin();
+            MyCount();
             check++;
             if (check == 2 && checkIt == false)
             {
@@ -101,8 +104,8 @@ public class gamePlay : MonoBehaviour
             }
             tOne[setter] = tTwo[setter];
         }
-        
-     tOne[setter] -= Time.deltaTime;
+
+        tOne[setter] -= Time.deltaTime;
         if (bonus)
         {
             tOne[setter] += PlayerPrefs.GetFloat("setThree");
@@ -127,15 +130,23 @@ public class gamePlay : MonoBehaviour
         {
             GamerLoseTime();
         }
-     Timer.text = tOne[setter].ToString("0.00");
-     timerImage.fillAmount = (tOne[setter] * (100 / tTwo[setter])) / 100;
+        Timer.text = tOne[setter].ToString("0.00");
+        timerImage.fillAmount = (tOne[setter] * (100 / tTwo[setter])) / 100;
     }
 
     private void AddCoin()
     {
         coin = PlayerPrefs.GetInt("coins");
-        coin += 10;
+        coin += 1;
         PlayerPrefs.SetInt("coins", coin);
+    }
+
+    private void MyCount()
+    {
+        count++;
+        score.text = count.ToString();
+        if (PlayerPrefs.GetInt("ScoreSecondMode") < count)
+            PlayerPrefs.SetInt("ScoreSecondMode", count);
     }
 
     IEnumerator BonusView()
@@ -145,4 +156,5 @@ public class gamePlay : MonoBehaviour
         Bonus.SetActive(false);
         yield return null;
     }
+
 }

@@ -14,10 +14,18 @@ public class buttons : MonoBehaviour
         switch (gameObject.name)
         {
             case "Replay":
-                Application.LoadLevel("SampleScene");
+                Application.LoadLevel("firstMode");
+                break;
+            case "ReplaySecondMode":
+                Application.LoadLevel("secondMode");
                 break;
             case "Play":
-                Application.LoadLevel("SampleScene");
+                Application.LoadLevel("firstMode");
+                PlayerPrefs.SetInt("mode", 1);
+                break;
+            case "PlayTwo":
+                Application.LoadLevel("secondMode");
+                PlayerPrefs.SetInt("mode", 2);
                 break;
             case "Home":
                 Application.LoadLevel("play");

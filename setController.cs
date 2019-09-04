@@ -57,6 +57,7 @@ public class setController : MonoBehaviour
         PlayerPrefs.GetInt("Score", record);
         record = 0;
         PlayerPrefs.SetInt("Score", record);
+        PlayerPrefs.SetInt("ScoreSecondMode", record);
     }
 
     void Update()
